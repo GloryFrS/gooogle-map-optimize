@@ -9,7 +9,6 @@ import {
   Marker,
   MarkerClusterer
 } from '@react-google-maps/api'
-import fetch from 'isomorphic-unfetch'
 
 const containerStyle = {
   width: '100vw',
@@ -22,6 +21,7 @@ const center = {
 }
 
 const positions = []
+const { REACT_APP_API_KEY } = process.env
 
 function Map () {
   const [map, setMap] = useState(null)
@@ -39,20 +39,21 @@ function Map () {
 
   const getRandomInRange = (from, to, fixed) => ((Math.random() * (to - from) + from).toFixed(fixed) * 1)
 
-  useEffect(async () => {
-    for (let index = 0; index < 1500; index++) {
-      positions.push({ lat: getRandomInRange(-90, 90, 3), lng: getRandomInRange(-180, 180, 3) })
+  useEffect(() => {
+    for (let index = 0; index < 40; index++) {
+      positions.push({ lat: getRandomInRange(-85, 85, 3), lng: getRandomInRange(-180, 180, 3) })
     }
-  }, [map])
+  }, [])
 
   const options = {
     imagePath:
-      'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
+      'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
+    enableRetinaIcons: true
   }
 
   return (
     <LoadScript
-      googleMapsApiKey='AIzaSyAHLAYJXCy16QKzC1A-m7Olx9ue9OegBFc'
+      googleMapsApiKey={REACT_APP_API_KEY}
     >
       <GoogleMap
         mapContainerStyle={containerStyle}
